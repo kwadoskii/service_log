@@ -14,6 +14,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { usePathname } from "next/navigation";
 
 const data = {
   user: {
@@ -25,29 +26,31 @@ const data = {
     {
       title: "Operations",
       icon: BriefcaseBusiness,
+      isActive: false,
       items: [
         {
           title: "Subscribe to Service",
-          url: "/operations/subscribetoservice",
+          url: "/operations/subscribe-to-service",
         },
-        { title: "Renew Service", url: "/operations/renewservice" },
+        { title: "Renew Service", url: "/operations/renew-service" },
       ],
     },
     {
       title: "Reports",
       // url: "",
       icon: ScrollText,
-      // isActive: true,
+      isActive: false,
       items: [
-        { title: "All Services", url: "/reports/allservices" },
-        { title: "Active Services", url: "/reports/activeservices" },
-        { title: "Expires in", url: "/reports/expiresin" },
-        { title: "Expired Services", url: "/reports/expiredservices" },
+        { title: "All Services", url: "/reports/all-services" },
+        { title: "Active Services", url: "/reports/active-services" },
+        { title: "Expires in", url: "/reports/expires-in" },
+        { title: "Expired Services", url: "/reports/expired-services" },
       ],
     },
     {
       title: "Settings",
       icon: Settings2,
+      isActive: false,
       items: [
         { title: "Users", url: "/settings/users" },
         { title: "Vendors", url: "/settings/vendors" },
@@ -60,6 +63,25 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [navMain2, setNavMain2] = React.useState([...data.navMain]);
+  const paths = usePathname();
+  const pathStartsWith = paths.split("/").filter((path) => path)[0];
+
+  React.useEffect(() => {
+    let newx = [...navMain2];
+    newx = newx.map((n, i) => {
+      if (n.title.toLowerCase() === pathStartsWith?.toLowerCase()) {
+        let n2 = n;
+        n2.isActive = true;
+        return n2;
+      }
+      n.isActive = false;
+      return n;
+    });
+    setNavMain2([...newx]);
+    // console.log(navMain2);
+  }, [pathStartsWith]);
+
   return (
     <Sidebar
       className="top-(--header-height) h-[calc(100svh-var(--header-height))]! select-none"
@@ -84,7 +106,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain items={navMain2} />
         {/* <NavProjects projects={data.projects} /> */}
         {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>

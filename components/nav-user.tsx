@@ -72,7 +72,7 @@ export function NavUser({
             <DropdownMenuSeparator />
 
             <DropdownMenuGroup>
-              <Link href="/myprofile">
+              <Link href="/my-profile">
                 <DropdownMenuItem>
                   <UserRoundPen />
                   My Profile

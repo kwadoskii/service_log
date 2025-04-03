@@ -18,7 +18,8 @@ export const metadata: Metadata = {
     template: "%s | Service Expiry Tracker App",
     default: "Service Expiry Tracker App",
   },
-  description: "Created by Austin Ofor",
+  description:
+    "Application that tracks different services rendered by vendors and when they expire. Created by Austin Ofor",
 };
 
 export default function RootLayout({

@@ -13,6 +13,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { DataTableColumnHeader } from "./table-column-header";
 
 export type Payment = {
   id: string;
@@ -24,7 +25,7 @@ export type Payment = {
 export const columns: ColumnDef<Payment>[] = [
   {
     accessorKey: "status",
-    header: "Status",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Status" />,
     cell: ({ row }) => {
       let status: string = row.getValue("status");
 
@@ -46,11 +47,15 @@ export const columns: ColumnDef<Payment>[] = [
   },
   {
     accessorKey: "email",
-    header: "Email",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Email" />,
   },
   {
     accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
+    // header: () => <div className="text-right">Amount</div>,
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Amount" className="justify-end -mr-3" />
+    ),
+    // enableSorting: true,
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("amount"));
       const formatted = new Intl.NumberFormat("en-US", {
@@ -69,7 +74,10 @@ export const columns: ColumnDef<Payment>[] = [
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
+            <Button
+              variant="ghost"
+              className="h-8 w-8 p-0 focus-visible:ring-0 data-[state=open]:bg-accent"
+            >
               <span className="sr-only">Open menu</span>
               <MoreHorizontal className="h-4 w-4" />
             </Button>

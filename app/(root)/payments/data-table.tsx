@@ -7,6 +7,8 @@ import {
   useReactTable,
   getPaginationRowModel,
   PaginationState,
+  SortingState,
+  getSortedRowModel,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -18,6 +20,7 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { DataTablePagination } from "./table-pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -29,6 +32,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     pageIndex: 0,
     pageSize: 8, //controls size of data rendered
   });
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const table = useReactTable({
     data,
@@ -36,8 +40,12 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onPaginationChange: setPagination,
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+
     state: {
       pagination,
+      sorting,
     },
   });
 
@@ -82,8 +90,8 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
         </Table>
       </div>
 
-      <div className="flex items-center justify-end gap-x-2 py-3">
-        <Button
+      <div className="flex items-center justify-end gap-x-2 py-2">
+        {/* <Button
           variant="outline"
           size="sm"
           onClick={() => table.previousPage()}
@@ -98,7 +106,8 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
           disabled={!table.getCanNextPage()}
         >
           Next
-        </Button>
+        </Button> */}
+        <DataTablePagination table={table} />
       </div>
     </div>
   );

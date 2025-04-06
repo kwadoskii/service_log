@@ -2,13 +2,15 @@
 
 import {
   ColumnDef,
+  ColumnFiltersState,
   flexRender,
   getCoreRowModel,
-  useReactTable,
+  getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   PaginationState,
   SortingState,
-  getSortedRowModel,
+  useReactTable,
 } from "@tanstack/react-table";
 import {
   Table,
@@ -20,6 +22,7 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "./table-pagination";
 
 interface DataTableProps<TData, TValue> {
@@ -33,6 +36,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     pageSize: 8, //controls size of data rendered
   });
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
     data,
@@ -42,8 +46,11 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
 
     state: {
+      columnFilters,
       pagination,
       sorting,
     },
@@ -51,6 +58,16 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 
   return (
     <div className="flex flex-col justify-between">
+      <div className="flex items-center pb-3">
+        <Input
+          placeholder="Filter by emails..."
+          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          onChange={(event) => table.getColumn("email")?.setFilterValue(event.target.value)}
+          className="max-w-sm focus-visible:ring-1"
+          type="search"
+        />
+      </div>
+
       <div className="rounded-md border">
         <Table>
           <TableHeader>

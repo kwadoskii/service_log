@@ -3,10 +3,11 @@
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
-import { Eye, Pen } from "lucide-react";
+import { Pen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 import { DataTableColumnHeader } from "@/components/table-column-header";
+import ViewVendor from "./view-vendor";
 
 export type Vendor = {
   id: string;
@@ -34,16 +35,7 @@ export const columns: ColumnDef<Vendor>[] = [
     cell: ({ row }) => {
       const vendor = row.original;
 
-      return (
-        <Button
-          variant="link"
-          className="h-8 w-8 p-0 focus-visible:ring-0 data-[state=open]:bg-accent cursor-pointer"
-          onClick={() => console.log(vendor.id)}
-        >
-          <span className="sr-only">View vendor</span>
-          <Eye className="h-4 w-4" />
-        </Button>
-      );
+      return <ViewVendor vendor={vendor} />;
     },
   },
 

@@ -13,7 +13,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { DataTableColumnHeader } from "./table-column-header";
+import { DataTableColumnHeader } from "../../../components/table-column-header";
 
 export type Payment = {
   id: string;

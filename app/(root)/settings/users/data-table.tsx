@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/table";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { DataTablePagination } from "../../../components/table-pagination";
+import { DataTablePagination } from "@/components/table-pagination";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -36,6 +36,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   });
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [globalFilter, setGlobalFilter] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
     data,
@@ -47,11 +48,14 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     getSortedRowModel: getSortedRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    globalFilterFn: "includesString",
+    onGlobalFilterChange: setGlobalFilter,
 
     state: {
       columnFilters,
       pagination,
       sorting,
+      globalFilter,
     },
   });
 
@@ -59,9 +63,11 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
     <div className="flex flex-col justify-between">
       <div className="flex items-center pb-3">
         <Input
-          placeholder="Filter by emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) => table.getColumn("email")?.setFilterValue(event.target.value)}
+          placeholder="Search"
+          // value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          value={(table.getState().globalFilter as string) ?? ""}
+          onChange={(e) => table.setGlobalFilter(String(e.target.value))}
+          // onChange={(event) => table.getColumn("email")?.setFilterValue(event.target.value)}
           className="max-w-sm focus-visible:ring-1"
           type="search"
         />

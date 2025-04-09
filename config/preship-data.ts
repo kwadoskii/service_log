@@ -3,6 +3,7 @@ export const countries: country[] = [
   { id: "2", name: "India", value: "India" },
   { id: "3", name: "Brazil", value: "Brazil" },
   { id: "4", name: "Ghana", value: "Ghana" },
+  { id: "5", name: "China", value: "China" },
 ];
 
 export const states: state[] = [

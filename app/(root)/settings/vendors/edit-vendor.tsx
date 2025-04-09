@@ -14,7 +14,7 @@ import { Pen } from "lucide-react";
 import { Vendor } from "./columns";
 import { useState } from "react";
 import {
-  Select,
+  Select,hone
   SelectContent,
   SelectGroup,
   SelectItem,
@@ -33,6 +33,9 @@ export default function EditVendor({ vendor }: { vendor: Vendor }) {
     country: vendor.address.country,
     email: vendor.email,
     altEmail: vendor.altEmail,
+    contactFullname: vendor.contact.fullname,
+    contactEmail: vendor.contact.email,
+    contactPhone: vendor.contact.phone
   });
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let name = e.target.name;
@@ -60,8 +63,8 @@ export default function EditVendor({ vendor }: { vendor: Vendor }) {
           <DialogTitle>{vendor.name}</DialogTitle>
         </DialogHeader>
         <DialogDescription>
-          <div className="w-full flex flex-col gap-3.5">
-            <div className="grid w-2/3 items-center gap-2">
+          <div className="w-full flex flex-col gap-5">
+            <div className="grid w-full items-center gap-2">
               <Label htmlFor="name" className="ml-1.5">
                 Name
               </Label>
@@ -193,6 +196,52 @@ export default function EditVendor({ vendor }: { vendor: Vendor }) {
                   name="altEmail"
                   placeholder="Alternate Email"
                   value={values["altEmail"]}
+                  onChange={(e) => handleChange(e)}
+                />
+              </div>
+            </div>
+
+            {/* contact */}
+            <p className="text-lg pl-1.5 pb-1">Contact Details</p>
+            <div className="grid grid-cols-3 items-center gap-2">
+              <div className="grid items-center gap-2">
+                <Label htmlFor="contactFullname" className="ml-1.5">
+                  Full name
+                </Label>
+                <Input
+                  type="text"
+                  id="contactFullname"
+                  name="contactFullname"
+                  placeholder="Full name"
+                  value={values["contactFullname"]}
+                  onChange={(e) => handleChange(e)}
+                />
+              </div>
+
+              <div className="grid items-center gap-2">
+                <Label htmlFor="contactEmail" className="ml-1.5">
+                  Email
+                </Label>
+                <Input
+                  type="text"
+                  id="contactEmail"
+                  name="contactEmail"
+                  placeholder="Email"
+                  value={values["contactEmail"]}
+                  onChange={(e) => handleChange(e)}
+                />
+              </div>
+
+              <div className="grid items-center gap-2">
+                <Label htmlFor="contactEmail" className="ml-1.5">
+                  Phone
+                </Label>
+                <Input
+                  type="text"
+                  id="contactPhone"
+                  name="contactPhone"
+                  placeholder="Phone"
+                  value={values["contactPhone"]}
                   onChange={(e) => handleChange(e)}
                 />
               </div>

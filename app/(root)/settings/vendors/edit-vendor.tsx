@@ -14,7 +14,7 @@ import { Pen } from "lucide-react";
 import { Vendor } from "./columns";
 import { useState } from "react";
 import {
-  Select,hone
+  Select,
   SelectContent,
   SelectGroup,
   SelectItem,
@@ -35,7 +35,7 @@ export default function EditVendor({ vendor }: { vendor: Vendor }) {
     altEmail: vendor.altEmail,
     contactFullname: vendor.contact.fullname,
     contactEmail: vendor.contact.email,
-    contactPhone: vendor.contact.phone
+    contactPhone: vendor.contact.phone,
   });
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let name = e.target.name;

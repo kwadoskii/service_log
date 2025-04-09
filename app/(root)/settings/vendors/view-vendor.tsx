@@ -8,14 +8,12 @@ import {
 import { Eye } from "lucide-react";
 import { Vendor } from "./columns";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 export default function ViewVendor({ vendor }: { vendor: Vendor }) {
   return (
     <Dialog>
-      <DialogTrigger
-        className="h-8 w-8 p-0 focus-visible:ring-0 data-[state=open]:bg-accent cursor-pointer focus-visible:bg-transparent"
-        onClick={() => console.log(vendor.id)}
-      >
+      <DialogTrigger className="h-8 w-8 p-0 focus-visible:ring-0 data-[state=open]:bg-accent cursor-pointer focus-visible:bg-transparent">
         <span className="sr-only">View vendor</span>
         <Eye className="h-4 w-4" />
       </DialogTrigger>
@@ -33,7 +31,18 @@ export default function ViewVendor({ vendor }: { vendor: Vendor }) {
           <a className="-mt-2 text-sm" href={`mailto:${vendor.email}`}>
             {vendor.email}
           </a>
-          <Badge className="-mt-1 text-sm">{vendor.servicesProvided}</Badge>
+          <div className="flex gap-2 items-center -mt-1">
+            <Badge className="">{vendor.servicesProvided}</Badge>
+            <Badge
+              className={cn(
+                "w-19",
+                vendor.status === "inactive" && "bg-destructive",
+                vendor.status === "active" && "bg-success"
+              )}
+            >
+              {vendor.status}
+            </Badge>
+          </div>
 
           <div className="">
             <div className="text-primary mt-5">

@@ -54,8 +54,7 @@ export default function Vendors() {
       name: "LCode",
       address: {
         addressLine1: "Lal Bagh Towers,",
-        addressLine2: `MG Rd, Ballalbagh,
-        Kodailbail, Mangaluru`,
+        addressLine2: `MG Rd, Ballalbagh, Kodailbail, Mangaluru`,
         state: "Karnataka 575003,",
         country: "India",
       },

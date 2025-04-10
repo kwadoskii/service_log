@@ -201,8 +201,35 @@ export default function EditVendor({ vendor }: { vendor: Vendor }) {
               </div>
             </div>
 
+            <div className="grid grid-cols-2 items-center gap-2">
+              <div className="space-y-2">
+                <Label htmlFor="country" className="ml-1.5">
+                  Service
+                </Label>
+                <Select
+                  value={values?.country}
+                  name="country"
+                  onValueChange={(value) => setValues({ ...values, country: value, state: "" })}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select a country" />
+                  </SelectTrigger>
+                  <SelectContent id="country">
+                    <SelectGroup>
+                      <SelectLabel>Countries</SelectLabel>
+                      {countries.map((country) => (
+                        <SelectItem key={country.id} value={country.value}>
+                          {country.name}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
             {/* contact */}
-            <p className="text-lg pl-1.5 pb-1">Contact Details</p>
+            <p className="text-lg pl-1.5 pb">Contact Details</p>
             <div className="grid grid-cols-3 items-center gap-2">
               <div className="grid items-center gap-2">
                 <Label htmlFor="contactFullname" className="ml-1.5">

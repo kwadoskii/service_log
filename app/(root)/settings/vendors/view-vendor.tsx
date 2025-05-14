@@ -27,10 +27,16 @@ export default function ViewVendor({ vendor }: { vendor: Vendor }) {
       >
         <DialogHeader>
           <DialogTitle>{vendor.name}</DialogTitle>
-
-          <a className="-mt-2 text-sm" href={`mailto:${vendor.email}`}>
-            {vendor.email}
-          </a>
+          <div className="flex">
+            <a className="-mt-2 text-sm" href={`mailto:${vendor.email}`}>
+              {vendor.email}
+            </a>
+            {vendor.altEmail && (
+              <a className="-mt-2 text-sm" href={`mailto:${vendor.altEmail}`}>
+                , {vendor.altEmail}
+              </a>
+            )}
+          </div>
           <div className="flex gap-2 items-center -mt-1">
             <Badge className="">{vendor.servicesProvided}</Badge>
             <Badge
@@ -47,8 +53,8 @@ export default function ViewVendor({ vendor }: { vendor: Vendor }) {
           <div className="">
             <div className="text-primary mt-5">
               <p className="underline">Address</p>
-              <p className="text-xs">{vendor.address.addressLine1}</p>
-              <p className="text-xs">{vendor.address.addressLine2}</p>
+              <p className="text-xs">{vendor.address.addressLine1},</p>
+              <p className="text-xs">{vendor.address.addressLine2},</p>
               <p className="text-xs">
                 {vendor.address.state}, {vendor.address.country}
               </p>
@@ -56,10 +62,10 @@ export default function ViewVendor({ vendor }: { vendor: Vendor }) {
             <div className="text-primary mt-5">
               <p className="underline">Contact Details</p>
               <p className="text-xs">{vendor.contact.fullname}</p>
-              <a href={`tel:${vendor.contact.phone}`} className="text-xs">
+              <a href={`tel:${vendor.contact.phone}`} className="text-xs block">
                 {vendor.contact.phone}
               </a>
-              <a href={`mailto:${vendor.contact.email}`} className="text-xs">
+              <a href={`mailto:${vendor.contact.email}`} className="text-xs block">
                 {vendor.contact.email}
               </a>
             </div>

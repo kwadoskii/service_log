@@ -23,17 +23,20 @@ import {
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "@/components/table-pagination";
+import { Button } from "@/components/ui/button";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
-  Component?: any;
+  newButton?: boolean;
+  onNewButtonClick?: any;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  Component,
+  newButton = false,
+  onNewButtonClick,
 }: DataTableProps<TData, TValue>) {
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -66,19 +69,20 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="flex flex-col justify-between">
-      <div className="flex w-full items-center pb-3 justify-between">
-        <div className="">
-          <Input
-            placeholder="Search"
-            // value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-            value={(table.getState().globalFilter as string) ?? ""}
-            onChange={(e) => table.setGlobalFilter(String(e.target.value))}
-            // onChange={(event) => table.getColumn("email")?.setFilterValue(event.target.value)}
-            className="max-w-sm focus-visible:ring-1"
-            type="search"
-          />
-        </div>
-        <div className="">{Component && <Component />}</div>
+      <div className="flex items-center pb-3 justify-between">
+        <Input
+          placeholder="Search"
+          value={(table.getState().globalFilter as string) ?? ""}
+          onChange={(e) => table.setGlobalFilter(String(e.target.value))}
+          className="max-w-sm focus-visible:ring-1"
+          type="search"
+        />
+
+        {newButton && (
+          <Button className="cursor-pointer" onClick={onNewButtonClick}>
+            Add
+          </Button>
+        )}
       </div>
 
       <div className="rounded-md border">
@@ -121,6 +125,22 @@ export function DataTable<TData, TValue>({
       </div>
 
       <div className="flex items-center justify-end gap-x-2 py-2">
+        {/* <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Prev
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Next
+        </Button> */}
         <DataTablePagination table={table} />
       </div>
     </div>

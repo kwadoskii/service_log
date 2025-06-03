@@ -33,7 +33,7 @@ export default function ViewService({ service }: { service: Service }) {
                 Service
               </Label>
               <Input
-                className="!cursor-not-allowed !text-primary col-span-3"
+                className="!text-primary col-span-3"
                 type="text"
                 id="name"
                 disabled

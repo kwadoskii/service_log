@@ -17,7 +17,8 @@ export default function LoginForm({ className, ...props }: React.ComponentPropsW
   const handleLogin = (e: React.MouseEvent<Element, MouseEvent>): void => {
     e.preventDefault();
     console.log({ email, password });
-    if (email !== "mis@utltrustees.com" && password !== "123456") {
+
+    if (email !== "mis@utltrustees.com" || password !== "123456") {
       return setErrorMessage("Invalid email or password");
     }
 

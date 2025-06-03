@@ -31,7 +31,7 @@ export default function Users() {
   ];
 
   return (
-    <div className="p-6 w-full px-10">
+    <div className="p-6 w-full">
       <p className="pl-2.5 pb-5">Users</p>
       <DataTable data={data} columns={columns} />
     </div>

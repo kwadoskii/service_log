@@ -20,6 +20,7 @@ export default function ViewService({ service }: { service: Service }) {
         <Eye className="h-4 w-4" />
       </DialogTrigger>
       <DialogContent
+        className="!max-w-[48em] max-h-[90vh]"
         onInteractOutside={(e) => {
           e.preventDefault();
         }}

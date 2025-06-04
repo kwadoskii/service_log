@@ -2,24 +2,15 @@ export const metadata = {
   title: "Profile",
 };
 
-import { AppWindowIcon, CodeIcon } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { CardDescription } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function Profile() {
   return (
-    <div className="flex w-full max-w-lg p-6 flex-col gap-6">
+    <div className="flex w-full max-w-xl p-6 flex-col gap-6">
       <Tabs defaultValue="account">
         <TabsList>
           <TabsTrigger value="account">Account</TabsTrigger>
@@ -27,14 +18,14 @@ export default function Profile() {
         </TabsList>
 
         <TabsContent value="account">
-          <Card>
-            <CardHeader>
-              <CardTitle>Account</CardTitle>
+          <div className="pl-1.5">
+            <div className="pt-3 pb-5">
               <CardDescription>
                 Make changes to your account here. Click save changes when you&apos;re done.
               </CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-6">
+            </div>
+
+            <div className="grid gap-6">
               <div className="grid gap-3">
                 <Label htmlFor="firstname">Firstname</Label>
                 <Input id="firstname" defaultValue="Pedro" />
@@ -51,38 +42,41 @@ export default function Profile() {
                 <Label htmlFor="email">Email</Label>
                 <Input id="email" defaultValue="info@example.com" />
               </div>
-            </CardContent>
-            <CardFooter>
+            </div>
+
+            <div className="pt-5">
               <Button>Save changes</Button>
-            </CardFooter>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
+
         <TabsContent value="password">
-          <Card>
-            <CardHeader>
-              <CardTitle>Password</CardTitle>
+          <div className="pl-1.5">
+            <div className="pt-3 pb-5">
               <CardDescription>
                 Change your password here. After saving, you&apos;ll be logged out.
               </CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-6">
+            </div>
+
+            <div className="grid gap-6">
               <div className="grid gap-3">
-                <Label htmlFor="tabs-demo-current">Current password</Label>
-                <Input id="tabs-demo-current" type="password" />
+                <Label htmlFor="current">Current password</Label>
+                <Input id="current" type="password" />
               </div>
               <div className="grid gap-3">
-                <Label htmlFor="tabs-demo-new">New password</Label>
-                <Input id="tabs-demo-new" type="password" />
+                <Label htmlFor="newPassword">New password</Label>
+                <Input id="newPassword" type="password" />
               </div>
               <div className="grid gap-3">
-                <Label htmlFor="tabs-demo-new">Confirm password</Label>
-                <Input id="tabs-demo-new" type="password" />
+                <Label htmlFor="confirmPassword">Confirm password</Label>
+                <Input id="confirmPassword" type="password" />
               </div>
-            </CardContent>
-            <CardFooter>
+            </div>
+
+            <div className="pt-5">
               <Button>Change password</Button>
-            </CardFooter>
-          </Card>
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
     </div>

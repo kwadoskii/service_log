@@ -26,7 +26,7 @@ const data = {
     {
       title: "Operations",
       icon: BriefcaseBusiness,
-      isActive: false,
+      isActive: true,
       items: [
         {
           title: "Subscribe to Service",

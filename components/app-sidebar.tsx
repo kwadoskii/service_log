@@ -2,6 +2,9 @@
 
 import * as React from "react";
 import { Settings2, BriefcaseBusiness, ScrollText } from "lucide-react";
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
+import { usePathname } from "next/navigation";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -14,14 +17,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { usePathname } from "next/navigation";
+import { UserState } from "@/lib/features/userSlice";
 
 const data = {
-  user: {
-    name: "Austin Ofor",
-    email: "caofor@utltrustees.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   navMain: [
     {
       title: "Operations",
@@ -67,8 +65,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const paths = usePathname();
   const pathStartsWith = paths.split("/").filter((path) => path)[0];
 
+  const _user: UserState = useSelector((state: RootState) => state.user);
+
+  const user = {
+    name: `${_user?.firstName}  ${_user?.lastName}`,
+    email: _user?.email,
+  };
+
   React.useEffect(() => {
     let newx = [...navMain2];
+
     newx = newx.map((n, i) => {
       if (n.title.toLowerCase() === pathStartsWith?.toLowerCase()) {
         let n2 = n;
@@ -79,7 +85,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       return n;
     });
     setNavMain2([...newx]);
-    // console.log(navMain2);
   }, [pathStartsWith]);
 
   return (
@@ -111,7 +116,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {/* <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser user={user} />
       </SidebarFooter>
     </Sidebar>
   );

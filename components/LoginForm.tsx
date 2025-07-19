@@ -7,23 +7,36 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { loginUser } from "@/apis/authApi";
+import { toast } from "sonner";
+import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/lib/features/userSlice";
 
 export default function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<"div">) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
+  const dispatch = useDispatch();
 
-  const handleLogin = (e: React.MouseEvent<Element, MouseEvent>): void => {
+  const handleLogin = async (e: React.MouseEvent<Element, MouseEvent>): Promise<void> => {
     e.preventDefault();
-    console.log({ email, password });
+    setLoading(true);
+    Cookies.remove("authToken");
 
-    if (email !== "mis@utltrustees.com" || password !== "123456") {
-      return setErrorMessage("Invalid email or password");
+    try {
+      const data = await loginUser({ email, password });
+
+      Cookies.set("authToken", data.token);
+      dispatch(setUser(data));
+
+      return router.push("/");
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Login failed");
+    } finally {
+      setLoading(false);
     }
-
-    setErrorMessage("");
-    return router.push("/");
   };
 
   return (
@@ -31,13 +44,15 @@ export default function LoginForm({ className, ...props }: React.ComponentPropsW
       <Card>
         <CardHeader>
           <CardTitle className="text-2xl">Welcome</CardTitle>
-          <CardDescription>Enter your email below to login to your account</CardDescription>
+          <CardDescription>
+            Enter your email or username below to login to your account
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form>
             <div className="flex flex-col gap-6">
               <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">Email/Username</Label>
                 <Input
                   id="email"
                   type="email"
@@ -69,13 +84,11 @@ export default function LoginForm({ className, ...props }: React.ComponentPropsW
               <Button
                 type="submit"
                 className="w-full cursor-pointer"
-                disabled={email.length === 0 || password.length === 0}
+                disabled={email.length === 0 || password.length === 0 || loading}
                 onClick={handleLogin}
               >
-                Login
+                {loading ? "Logging in..." : "Login"}
               </Button>
-
-              {errorMessage && <p className="text-sm text-red-600 -mt-4">{errorMessage}</p>}
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}

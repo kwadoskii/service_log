@@ -1,5 +1,7 @@
-import { SidebarInset } from "@/components/ui/sidebar";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
+import { SidebarInset } from "@/components/ui/sidebar";
 export const iframeHeight = "800px";
 
 export const metadata = {
@@ -8,7 +10,14 @@ export const metadata = {
     "Application that tracks different services rendered by vendors and when they expire.",
 };
 
-export default function Page() {
+export default async function Page() {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("authToken")?.value;
+
+  if (!token) {
+    return redirect("/login");
+  }
+
   return (
     <SidebarInset>
       <div className="flex flex-1 flex-col gap-4 p-4">

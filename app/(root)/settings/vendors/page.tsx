@@ -9,6 +9,8 @@ import { addVendor } from "@/lib/features/vendors/vendorSlice";
 
 import VendorForm, { Values } from "./VendorForm";
 import Head from "next/head";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
 // export const metadata = {
 //   title: "Vendors",
@@ -17,6 +19,13 @@ import Head from "next/head";
 export default function Vendors() {
   const dispatch = useDispatch<AppDispatch>();
   const vendors = useSelector((state: RootState) => state.vendors);
+  const router = useRouter();
+
+  const token = Cookies.get("authToken");
+
+  if (!token) {
+    return router.replace("/login");
+  }
 
   const handleAddVendor = (values: Values) => {
     dispatch(

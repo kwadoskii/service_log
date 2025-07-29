@@ -5,6 +5,11 @@ const loginUser = async (credentials: LoginPayload): Promise<LoginResponse> => {
   return response.data;
 };
 
+const register = async (profile: registerData) => {
+  const response = await API.post("/auth/register", profile);
+  return response.data;
+};
+
 const getUserProfile = async (): Promise<UserProfile> => {
   const response = await API.get("/auth/profile");
   return response.data;
@@ -20,7 +25,7 @@ const changePassword = async (passwords: updatePassword) => {
   return response.data;
 };
 
-export { getUserProfile, loginUser, updateUserProfile, changePassword };
+export { getUserProfile, loginUser, updateUserProfile, changePassword, register };
 
 //interfaces
 interface LoginPayload {
@@ -47,6 +52,7 @@ interface UserProfile {
   lastName: string;
   username: string;
   createdAt: string;
+  password?: string;
 }
 
 interface UpdateUserProfile {
@@ -59,4 +65,13 @@ interface UpdateUserProfile {
 interface updatePassword {
   currentPassword: string;
   newPassword: string;
+}
+
+interface registerData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  username: string;
+  password: string;
+  role?: string;
 }

@@ -1,14 +1,58 @@
+"use client";
+
+import Cookies from "js-cookie";
+import Link from "next/link";
+import { MouseEvent, useEffect, useState } from "react";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+
+import { register } from "@/apis/authApi";
 // import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
+import { useDispatch } from "react-redux";
+import { setUser } from "@/lib/features/userSlice";
 
-export const metadata = {
-  title: "Sign up",
-};
+// export const metadata = {
+//   title: "Sign up",
+// };
 
 export default function LoginPage() {
+  const [registerData, setRegisterData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    username: "",
+    password: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  const handleRegister = async (e: MouseEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      console.log(registerData);
+      const data = await register(registerData);
+
+      Cookies.set("authToken", data.token);
+      dispatch(setUser(data));
+
+      return router.push("/");
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Sign up failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    document.title = "Sign up";
+  }, []);
+
   return (
     <section className="flex min-h-screen bg-zinc-50 px-4 py-4 md:py-8 dark:bg-transparent">
       <form
@@ -72,16 +116,30 @@ export default function LoginPage() {
           <div className="space-y-5">
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-2">
-                <Label htmlFor="firstname" className="block text-sm">
+                <Label htmlFor="firstName" className="block text-sm">
                   Firstname
                 </Label>
-                <Input type="text" required name="firstname" id="firstname" />
+                <Input
+                  type="text"
+                  required
+                  name="firstName"
+                  id="firstName"
+                  value={registerData.firstName}
+                  onChange={(e) => setRegisterData({ ...registerData, firstName: e.target.value })}
+                />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="lastname" className="block text-sm">
+                <Label htmlFor="lastName" className="block text-sm">
                   Lastname
                 </Label>
-                <Input type="text" required name="lastname" id="lastname" />
+                <Input
+                  type="text"
+                  required
+                  name="lastName"
+                  id="lastName"
+                  value={registerData.lastName}
+                  onChange={(e) => setRegisterData({ ...registerData, lastName: e.target.value })}
+                />
               </div>
             </div>
 
@@ -89,30 +147,47 @@ export default function LoginPage() {
               <Label htmlFor="email" className="block text-sm">
                 Email
               </Label>
-              <Input type="email" required name="email" id="email" />
+              <Input
+                type="email"
+                required
+                name="email"
+                id="email"
+                value={registerData.email}
+                onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
+              />
             </div>
 
             <div className="space-y-2">
               <Label htmlFor="username" className="block text-sm">
                 Username
               </Label>
-              <Input required name="username" id="username" />
+              <Input
+                required
+                name="username"
+                id="username"
+                value={registerData.username}
+                onChange={(e) => setRegisterData({ ...registerData, username: e.target.value })}
+              />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="pwd" className="text-title text-sm">
+              <Label htmlFor="password" className="text-title text-sm">
                 Password
               </Label>
               <Input
                 type="password"
                 required
-                name="pwd"
-                id="pwd"
+                name="password"
+                id="password"
                 className="input sz-md variant-mixed"
+                value={registerData.password}
+                onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
               />
             </div>
 
-            <Button className="w-full">Continue</Button>
+            <Button className="w-full" onClick={(e) => handleRegister(e)} disabled={loading}>
+              {loading ? "Signing up" : "Sign up"}
+            </Button>
           </div>
         </div>
 

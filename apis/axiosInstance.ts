@@ -32,7 +32,7 @@ API.interceptors.response.use(
   (error) => {
     if (
       error.response?.status === 401 &&
-      window.location.href === "/login" &&
+      window.location.href !== "/login" &&
       typeof window !== "undefined" &&
       !isHandling401
     ) {
@@ -41,9 +41,9 @@ API.interceptors.response.use(
       Cookies.remove("authToken");
       store.dispatch(logoutUser());
 
-      toast.info("Session expired. Please log in again.");
-
       window.location.href = "/login";
+
+      toast.info("Session expired. Please log in again.");
     }
 
     return Promise.reject(error);

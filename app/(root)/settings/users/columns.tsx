@@ -10,10 +10,10 @@ import { DataTableColumnHeader } from "@/components/table-column-header";
 
 export type User = {
   id: string;
-  firstname: string;
-  lastname: string;
+  firstName: string;
+  lastName: string;
   email: string;
-  status: "active" | "inactive";
+  status: boolean;
 };
 
 export const columns: ColumnDef<User>[] = [
@@ -36,11 +36,11 @@ export const columns: ColumnDef<User>[] = [
   },
 
   {
-    accessorKey: "firstname",
+    accessorKey: "firstName",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Firstname" />,
   },
   {
-    accessorKey: "lastname",
+    accessorKey: "lastName",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Lastname" />,
   },
   {
@@ -56,14 +56,8 @@ export const columns: ColumnDef<User>[] = [
       let status: string = row.getValue("status");
 
       return (
-        <Badge
-          className={cn(
-            "w-19",
-            status === "inactive" && "bg-destructive",
-            status === "active" && "bg-success"
-          )}
-        >
-          {status}
+        <Badge className={cn("w-19", !status && "bg-destructive", status && "bg-success")}>
+          {status ? "active" : "inactive"}
         </Badge>
       );
     },

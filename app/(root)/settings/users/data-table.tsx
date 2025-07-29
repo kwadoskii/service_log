@@ -20,9 +20,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { DataTablePagination } from "@/components/table-pagination";
+import { getAllUsers } from "@/apis/userApi";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -30,6 +31,15 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
+  const [data2, setdata2] = useState([]);
+
+  useEffect(() => {
+    getAllUsers().then((data) => {
+      console.log(data);
+      setdata2(data);
+    });
+  }, []);
+
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 8, //controls size of data rendered
@@ -39,7 +49,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
   const [globalFilter, setGlobalFilter] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
-    data,
+    data: data2,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
